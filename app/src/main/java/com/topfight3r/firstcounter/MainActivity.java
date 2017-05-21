@@ -1,7 +1,9 @@
 package com.topfight3r.firstcounter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -26,33 +28,46 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnTouchListener(new View.OnTouchListener() {
             private Handler mHandler;
             View thisView = null;
-            boolean finger_down = false;
+            Context thisContext = getApplicationContext();
+            boolean heldDown = false;
+            HeldIncrease thisTracker = new HeldIncrease();
             @Override public boolean onTouch(View v, MotionEvent event) {
                 thisView = v;
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        if (mHandler != null) return true;
-                        mHandler = new Handler();
-                        finger_down = true;
-                        mHandler.postDelayed(mAction, 500);
-                        break;
+                       if(HeldIncrease.heldDown) return true;
+                       // if (mHandler != null) return true;
+                       // mHandler = new Handler();
+                       // mHandler.postDelayed(mAction, 5000);
+                        System.out.println("Finger down***********************************");
+                        thisTracker.start(thisContext, count);
+                        thisTracker.start();
+                        System.out.println("Finger down2***********************************");
+                        return true;
+                        //break;
                     case MotionEvent.ACTION_UP:
-                        if (mHandler == null) return true;
-                        finger_down = false;
-                        mHandler.removeCallbacks(mAction);
-                        mHandler = null;
+                        if(!HeldIncrease.heldDown) return false;
+                       // if (mHandler == null) return true;
+                       // mHandler.removeCallbacks(mAction);
+                       // mHandler = null;
+                        System.out.println("Finger up***********************************");
+                        thisTracker.kill();
                         break;
                 }
-                return false;
+                return true;
             }
 
             Runnable mAction = new Runnable() {
+                long startTime =0;
                 @Override public void run() {
-                    System.out.println("Performing action...");
-                    decreaseCount(thisView, 3);
-                    if(finger_down) {
-                        mHandler.postDelayed(this, 500);
+                    startTime = uptimeMillis();
+                    while(heldDown){
+                        if(uptimeMillis() - startTime > 700){
+                            decreaseCount(thisView, 3);
+                        }
                     }
+
+
                 }
             };
 
@@ -97,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    int count = 0;
+    static int count = 0;
     public void displayCount (int count){
         TextView countText = (TextView) findViewById(R.id.count);
         countText.setText(String.valueOf(count));
