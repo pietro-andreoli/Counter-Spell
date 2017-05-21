@@ -24,6 +24,7 @@ import static android.os.SystemClock.uptimeMillis;
 
 public class HeldIncrease extends Thread{
     public static boolean heldDown = false;
+    static long startTime =0;
     int count = 0;
     Context thisContext = null;
     public void start(Context v, int c){
@@ -34,23 +35,23 @@ public class HeldIncrease extends Thread{
     public void kill(){
 
         heldDown = false;
+        startTime = 0;
     }
     public void run(){
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
-        long startTime =0;
-        startTime = uptimeMillis();
-        while(heldDown){
+        if(startTime <= 0) startTime = uptimeMillis();
+       // while(heldDown){
             if(uptimeMillis() - startTime > 700){
                 decreaseCount(thisContext, 3);
                 startTime = uptimeMillis();
             }
-        }
+       // }
 
     }
 
     public void displayCount (int count){
-        //TextView countText = (TextView) ((Activity)thisContext).findViewById(R.id.count);
-        //countText.setText(String.valueOf(count));
+        TextView countText = (TextView) ((Activity)thisContext).findViewById(R.id.count);
+        countText.setText(String.valueOf(count));
         System.out.println(count);
     }
 
@@ -70,6 +71,6 @@ public class HeldIncrease extends Thread{
 
     public void decreaseCount(Context c, int incr){
         MainActivity.count -= incr;
-        displayCount(MainActivity.count);
+        //displayCount(MainActivity.count);
     }
 }

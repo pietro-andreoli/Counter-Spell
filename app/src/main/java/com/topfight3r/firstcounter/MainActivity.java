@@ -41,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
                        // mHandler = new Handler();
                        // mHandler.postDelayed(mAction, 5000);
                         System.out.println("Finger down***********************************");
-                        thisTracker.start(thisContext, count);
+                        thisTracker.start(null, count);
                         thisTracker.start();
+                        displayCount(count);
+                        //MainActivity.this.runOnUiThread(thisTracker);
                         System.out.println("Finger down2***********************************");
                         return true;
                         //break;
@@ -55,23 +57,11 @@ public class MainActivity extends AppCompatActivity {
                         thisTracker.kill();
                         return true;
                         //break;
+                    default: displayCount(count);
                 }
                 return false;
             }
 
-            Runnable mAction = new Runnable() {
-                long startTime =0;
-                @Override public void run() {
-                    startTime = uptimeMillis();
-                    while(heldDown){
-                        if(uptimeMillis() - startTime > 700){
-                            decreaseCount(thisView, 3);
-                        }
-                    }
-
-
-                }
-            };
 
 
         });
