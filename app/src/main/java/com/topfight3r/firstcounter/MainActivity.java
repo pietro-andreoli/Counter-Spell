@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnTouchListener(new View.OnTouchListener() {
+            final int MODE = 1;
             private Handler mHandler;
             View thisView = null;
             Context thisContext = getApplicationContext();
@@ -36,27 +37,20 @@ public class MainActivity extends AppCompatActivity {
                 thisView = v;
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                       //if(HeldIncrease.heldDown) return true;
-                       // if (mHandler != null) return true;
-                       // mHandler = new Handler();
-                       // mHandler.postDelayed(mAction, 5000);
                         System.out.println("Finger down***********************************");
-                        thisTracker.start(null, count);
+                        thisTracker.start(thisContext, MODE);
                         thisTracker.start();
                         displayCount(count);
-                        //MainActivity.this.runOnUiThread(thisTracker);
-                        System.out.println("Finger down2***********************************");
+                        System.out.println("Thread started...***********************************");
                         return true;
                         //break;
                     case MotionEvent.ACTION_UP:
-                        //if(!HeldIncrease.heldDown) return false;
-                       // if (mHandler == null) return true;
-                       // mHandler.removeCallbacks(mAction);
-                       // mHandler = null;
-                        System.out.println("Finger up***********************************");
+                        System.out.println("Killing thread***********************************");
+                        if(!thisTracker.isLongPressed){
+                            decreaseCount(thisView);
+                        }
                         thisTracker.kill();
                         return true;
-                        //break;
                     default: displayCount(count);
                 }
                 return false;
@@ -65,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
-      /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+      //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 decreaseCount(view);
             }
-        });*/
+        });
         FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,53 +124,84 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class HeldIncrease2 extends Thread{
+        //Boolean that states whether the button is in a held down state, or if the user is just clicking.
+        //True if long press, False if click
+        public boolean isLongPressed = false;
+        //Boolean checking if the users finger is on the button. True if the users finger is down, false otherwise.
         public boolean heldDown = false;
+        //Integer for keeping track of the current life total
         int count = 0;
+        //The amount of time required for it to be considered a long press
+        long pressDuration = 700;
+        //The context of the UI Thread
         Context thisContext = null;
-        public void start(Context v, int c){
-            thisContext = v;
-            //count = c;
-            heldDown = true;
+        //the mode for incrementing or decrementing
+        int mode = -1;
+        /*My start function, sets the current life total and initalizes heldDown
+        @param v The context of the UI Thread
+        @param mode the mode chosen for incrementing. Options: 0 = increase, 1 = decrease
+         */
+        public void start(Context v, int mode){
+            this.thisContext = v;
+            this.mode = mode;
+            this.heldDown = true;
         }
+
+        /*My kill function. Stops the loop in run() and uses isLongPressed to state that the user
+        is not long pressing.
+         */
         public void kill(){
-            heldDown = false;
+            this.heldDown = false;
+            this.isLongPressed = false;
         }
+
+        /*Built in run function. Starts the loop that increases the life total by an increment
+         */
         public void run(){
+
+            //Necessary thread safety
             android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+            //The start time of the long press.
             long startTime =0;
+            //Sets the start time to the current time
             startTime = uptimeMillis();
+            //Loops until the users finger is lifted
             while(heldDown){
-                if(uptimeMillis() - startTime > 700){
-                    decreaseCount(thisContext, 3);
+                //If the user has had their finger held down for longer than the specified number of
+                // miliseconds, consider it a held down action and start incrementing
+                if(uptimeMillis() - startTime > pressDuration){
+                    //States that the user is holding down the button
+                    this.heldDown = true;
+                    //States that the user is attempting a long press and not a click
+                    this.isLongPressed = true;
+                    //Checks which mode was chosen
+                    if (mode == 1) {
+                        //Decreases count
+                        this.decreaseCount(3);
+                    }else{
+                        //Increases count
+                        this.increaseCount(3);
+                    }
+                    //Resets the start time
                     startTime = uptimeMillis();
                 }
             }
 
         }
 
-        public void displayCount (int count){
-            //TextView countText = (TextView) findViewById(R.id.count);
-           // countText.setText(String.valueOf(count));
-            System.out.println(count);
+        public void increaseCount(){
+            MainActivity.count ++;
         }
 
-        public void increaseCount(View view){
-            count ++;
-            displayCount(count);
+        public void increaseCount(int incr){
+            MainActivity.count += incr;
+        }
+        public void decreaseCount(){
+            MainActivity.count --;
         }
 
-        public void increaseCount(View view, int incr){
-            count += incr;
-            displayCount(count);
-        }
-        public void decreaseCount(View view){
-            count --;
-            displayCount(count);
-        }
-
-        public void decreaseCount(Context c, int incr){
+        public void decreaseCount(int incr){
             MainActivity.count -= incr;
-            displayCount(MainActivity.count);
         }
     }
 

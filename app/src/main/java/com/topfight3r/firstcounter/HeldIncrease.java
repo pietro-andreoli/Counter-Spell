@@ -27,9 +27,7 @@ public class HeldIncrease extends Thread{
     static long startTime =0;
     int count = 0;
     Context thisContext = null;
-    public void start(Context v, int c){
-        thisContext = v;
-        //count = c;
+    public void myStart(){
         heldDown = true;
     }
     public void kill(){
@@ -40,37 +38,27 @@ public class HeldIncrease extends Thread{
     public void run(){
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
         if(startTime <= 0) startTime = uptimeMillis();
-       // while(heldDown){
-            if(uptimeMillis() - startTime > 700){
-                decreaseCount(thisContext, 3);
-                startTime = uptimeMillis();
-            }
-       // }
+        if(uptimeMillis() - startTime > 700){
+            decreaseCount(thisContext, 3);
+            startTime = uptimeMillis();
+        }
 
     }
 
-    public void displayCount (int count){
-        TextView countText = (TextView) ((Activity)thisContext).findViewById(R.id.count);
-        countText.setText(String.valueOf(count));
-        System.out.println(count);
-    }
+
 
     public void increaseCount(View view){
         count ++;
-        displayCount(count);
     }
 
     public void increaseCount(View view, int incr){
         count += incr;
-        displayCount(count);
     }
     public void decreaseCount(View view){
         count --;
-        displayCount(count);
     }
 
     public void decreaseCount(Context c, int incr){
         MainActivity.count -= incr;
-        //displayCount(MainActivity.count);
     }
 }
