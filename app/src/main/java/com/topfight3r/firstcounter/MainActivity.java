@@ -1,5 +1,6 @@
 package com.topfight3r.firstcounter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             View thisView = null;
             Context thisContext = getApplicationContext();
             boolean heldDown = false;
-            HeldIncrease thisTracker = new HeldIncrease();
+            HeldIncrease2 thisTracker = new HeldIncrease2();
             @Override public boolean onTouch(View v, MotionEvent event) {
                 thisView = v;
                 switch(event.getAction()) {
@@ -136,4 +137,56 @@ public class MainActivity extends AppCompatActivity {
         count -= incr;
         displayCount(count);
     }
+
+    class HeldIncrease2 extends Thread{
+        public boolean heldDown = false;
+        int count = 0;
+        Context thisContext = null;
+        public void start(Context v, int c){
+            thisContext = v;
+            //count = c;
+            heldDown = true;
+        }
+        public void kill(){
+            heldDown = false;
+        }
+        public void run(){
+            android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
+            long startTime =0;
+            startTime = uptimeMillis();
+            while(heldDown){
+                if(uptimeMillis() - startTime > 700){
+                    decreaseCount(thisContext, 3);
+                    startTime = uptimeMillis();
+                }
+            }
+
+        }
+
+        public void displayCount (int count){
+            //TextView countText = (TextView) findViewById(R.id.count);
+           // countText.setText(String.valueOf(count));
+            System.out.println(count);
+        }
+
+        public void increaseCount(View view){
+            count ++;
+            displayCount(count);
+        }
+
+        public void increaseCount(View view, int incr){
+            count += incr;
+            displayCount(count);
+        }
+        public void decreaseCount(View view){
+            count --;
+            displayCount(count);
+        }
+
+        public void decreaseCount(Context c, int incr){
+            MainActivity.count -= incr;
+            displayCount(MainActivity.count);
+        }
+    }
+
 }
