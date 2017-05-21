@@ -59,19 +59,46 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
-      //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                decreaseCount(view);
-            }
-        });
         FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 increaseCount(view);
             }
+        });
+
+        fab2.setOnTouchListener(new View.OnTouchListener() {
+            final int MODE = 0;
+            private Handler mHandler;
+            View thisView = null;
+            Context thisContext = getApplicationContext();
+            boolean heldDown = false;
+            HeldIncrease2 thisTracker = new HeldIncrease2();
+            @Override public boolean onTouch(View v, MotionEvent event) {
+                thisView = v;
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        System.out.println("Finger down on increase button");
+                        thisTracker.start(thisContext, MODE);
+                        thisTracker.start();
+                        displayCount(count);
+                        System.out.println("Thread started...***********************************");
+                        return true;
+                    //break;
+                    case MotionEvent.ACTION_UP:
+                        System.out.println("Killing thread***********************************");
+                        if(!thisTracker.isLongPressed){
+                            increaseCount(thisView);
+                        }
+                        thisTracker.kill();
+                        return true;
+                    default: displayCount(count);
+                }
+                return false;
+            }
+
+
+
         });
 
     }
