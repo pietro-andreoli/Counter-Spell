@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 thisView = v;
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                       if(HeldIncrease.heldDown) return true;
+                       //if(HeldIncrease.heldDown) return true;
                        // if (mHandler != null) return true;
                        // mHandler = new Handler();
                        // mHandler.postDelayed(mAction, 5000);
@@ -47,15 +47,16 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                         //break;
                     case MotionEvent.ACTION_UP:
-                        if(!HeldIncrease.heldDown) return false;
+                        //if(!HeldIncrease.heldDown) return false;
                        // if (mHandler == null) return true;
                        // mHandler.removeCallbacks(mAction);
                        // mHandler = null;
                         System.out.println("Finger up***********************************");
                         thisTracker.kill();
-                        break;
+                        return true;
+                        //break;
                 }
-                return true;
+                return false;
             }
 
             Runnable mAction = new Runnable() {

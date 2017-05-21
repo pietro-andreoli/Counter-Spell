@@ -32,6 +32,7 @@ public class HeldIncrease extends Thread{
         heldDown = true;
     }
     public void kill(){
+
         heldDown = false;
     }
     public void run(){
@@ -48,8 +49,8 @@ public class HeldIncrease extends Thread{
     }
 
     public void displayCount (int count){
-        TextView countText = (TextView) ((Activity)thisContext).findViewById(R.id.count);
-        countText.setText(String.valueOf(count));
+        //TextView countText = (TextView) ((Activity)thisContext).findViewById(R.id.count);
+        //countText.setText(String.valueOf(count));
         System.out.println(count);
     }
 
