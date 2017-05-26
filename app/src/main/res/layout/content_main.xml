@@ -10,8 +10,8 @@
     tools:context="com.topfight3r.firstcounter.MainActivity">
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="370dp"
+        android:layout_height="198dp"
         android:gravity="center_horizontal|center_vertical"
         android:textSize = "120sp"
         android:id="@+id/count"
@@ -28,7 +28,8 @@
         android:layout_marginBottom="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.885"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginLeft="8dp" />
 
 </android.support.constraint.ConstraintLayout>

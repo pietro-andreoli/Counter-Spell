@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Functionality"
+        android:key="functionality">
+
+        <EditTextPreference
+            android:key="increment_number"
+            android:title="Increment By"
+            android:summary="When holding the increase or decrease buttons, the life total will increment or decrement by this amount."
+            android:dialogTitle="What is this?"
+            android:dialogMessage="What is this as well?"
+            android:defaultValue="3"
+            android:inputType="number"/>
+    </PreferenceCategory>
+</PreferenceScreen>

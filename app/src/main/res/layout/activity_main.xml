@@ -25,12 +25,23 @@
         android:id="@+id/include" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab2"
-        android:layout_width="58dp"
+        android:id="@+id/fab"
+        android:layout_width="60dp"
         android:layout_height="58dp"
         android:layout_gravity="top|right"
         android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|center_horizontal"
+        app:srcCompat="@drawable/ic_arrow_downward_black_24dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="58dp"
+        android:layout_height="114dp"
+        android:layout_gravity="top|left"
+        android:layout_margin="@dimen/fab_margin"
         android:layout_marginBottom="0dp"
+
         android:layout_marginEnd="0dp"
         android:layout_marginLeft="0dp"
 
@@ -38,16 +49,21 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="0dp"
         app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="bottom|left"
+        app:layout_anchorGravity="bottom|center_horizontal"
         app:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20"
+        android:drawableLeft="@drawable/ic_autorenew_black_24dp"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="60dp"
-        android:layout_height="58dp"
-        android:layout_gravity="top|left"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@+id/include"
-        app:layout_anchorGravity="bottom|right"
-        app:srcCompat="@drawable/ic_arrow_downward_black_24dp" />
+    <ListView
+        android:id="@+id/player_options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></ListView>
+    <TextView
+        android:id="@+id/player_options_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 </android.support.design.widget.CoordinatorLayout>
