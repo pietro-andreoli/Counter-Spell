@@ -12,12 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.AdapterView;
 
 /**
  * Created by petro_000 on 2017-05-26.
  */
 
-public class PlayerOptionsListViewLoader extends ListActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class PlayerOptionsListViewLoader extends ListActivity{
     ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -27,24 +28,19 @@ public class PlayerOptionsListViewLoader extends ListActivity implements LoaderM
         String[] values = {"hello", "world", "my", "name"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.player_options_list, R.id.player_options_text_view, values);
         listView.setAdapter(adapter);
-        listView.setOnClickListener(new AdapterView.OnItemClickListener(){
+        listView.setOnClickListener(new OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                
+
+                // ListView Clicked item index
+                int itemPosition= position;
+
+                // ListView Clicked item value
+                String itemValue = (String) listView.getItemAtPosition(position);
+
             }
         });
 
     }
 
-    public Loader<Cursor> onCreateLoader(int id, Bundle args){
-
-    }
-
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data){
-
-    }
-
-    public void onLoaderReset(Loader<Cursor> loader){
-
-    }
 }
