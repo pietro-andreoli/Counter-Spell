@@ -13,13 +13,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.os.SystemClock.uptimeMillis;
 
 public class MainActivity extends AppCompatActivity {
-
+    final int SPINNER_BUFFER = 50;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +109,10 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        Spinner lifeTotal = (Spinner) findViewById(R.id.life_total_spinner);
+        fillLifeSpinner(lifeTotal);
+
+
     }
 
     @Override
@@ -131,6 +141,23 @@ public class MainActivity extends AppCompatActivity {
     public void displayCount (int count){
         TextView countText = (TextView) findViewById(R.id.count);
         countText.setText(String.valueOf(count));
+        Spinner spinner = (Spinner)findViewById(R.id.life_total_spinner);
+        fillLifeSpinner(spinner);
+        spinner.setSelection(count);
+    }
+
+    public void fillLifeSpinner(Spinner spinner){
+        List<Integer> lifeList = new ArrayList<Integer>();
+        for(int i = count - SPINNER_BUFFER; i <= count + SPINNER_BUFFER; i++){
+            if (i >= 0){
+                lifeList.add(i);
+            }
+        }
+        ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, lifeList);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setSelection(count);
+        //findViewById(R.id.life_total_spinner).set
     }
 
     public void increaseCount(View view){

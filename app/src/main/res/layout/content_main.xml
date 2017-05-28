@@ -8,7 +8,9 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main"
     tools:context="com.topfight3r.firstcounter.MainActivity">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <TextView
         android:layout_width="387dp"
         android:layout_height="512dp"
@@ -16,5 +18,13 @@
         android:textSize = "120sp"
         android:id="@+id/count"
         android:text="0"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:id="@+id/life_total_spinner"
+        android:gravity="bottom" />
+</RelativeLayout>
+
 
 </android.support.constraint.ConstraintLayout>
