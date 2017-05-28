@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 
 import static android.os.SystemClock.uptimeMillis;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         });
+
         FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab2);
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +149,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void decreaseCount(View view, int incr){
         count -= incr;
+        displayCount(count);
+    }
+
+    public void resetHealth20(View v){
+        count = 20;
+        displayCount(count);
+    }
+
+    public void resetHealth40(View v){
+        count = 40;
         displayCount(count);
     }
 

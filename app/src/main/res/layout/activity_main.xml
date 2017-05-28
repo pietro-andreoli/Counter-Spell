@@ -51,19 +51,43 @@
         app:layout_anchor="@+id/include"
         app:layout_anchorGravity="bottom|center_horizontal"
         app:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="20"
-        android:drawableLeft="@drawable/ic_autorenew_black_24dp"/>
 
-    <ListView
-        android:id="@+id/player_options"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></ListView>
     <TextView
         android:id="@+id/player_options_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
+
+    <Button
+        android:id="@+id/player_custom_modify"
+        android:layout_width="47dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:drawableLeft="@drawable/ic_add_black_24dp"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="bottom|right" />
+
+    <Button
+        android:id="@+id/player_reset_20_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:drawableLeft="@drawable/ic_autorenew_black_24dp"
+        android:text="20"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="top|left"
+        android:onClick="resetHealth20"/>
+
+    <Button
+        android:id="@+id/player_reset_40_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:drawableLeft="@drawable/ic_autorenew_black_24dp"
+        android:text="40"
+        app:layout_anchor="@+id/include"
+        app:layout_anchorGravity="top|center_horizontal"
+        android:onClick="resetHealth40"/>
+
+
 </android.support.design.widget.CoordinatorLayout>
