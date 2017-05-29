@@ -2,6 +2,7 @@ package com.topfight3r.firstcounter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -13,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -26,6 +28,7 @@ import static android.os.SystemClock.uptimeMillis;
 
 public class MainActivity extends AppCompatActivity {
     final int SPINNER_BUFFER = 50;
+    static int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,8 +112,27 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        Spinner lifeTotal = (Spinner) findViewById(R.id.life_total_spinner);
+        final Spinner lifeTotal = (Spinner) findViewById(R.id.life_total_spinner);
+
         fillLifeSpinner(lifeTotal);
+        lifeTotal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            boolean tmp = false;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //updateCount(((Integer)lifeTotal.getAdapter().getItem(position)).intValue());
+                count = ((Integer)lifeTotal.getAdapter().getItem(position)).intValue();
+                
+                System.out.println("ayylmao");
+                //((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
+                //((TextView) parent.getChildAt(0)).setTextSize(120);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
     displayCount(count);
     }
@@ -137,29 +159,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    static int count = 0;
+
     public void displayCount (int count){
-        TextView countText = (TextView) findViewById(R.id.count);
-        countText.setText(String.valueOf(count));
+        //uncomment this if I ever bring the text display
+        // TextView countText = (TextView) findViewById(R.id.count);
+        //countText.setText(String.valueOf(count));
         Spinner spinner = (Spinner)findViewById(R.id.life_total_spinner);
         fillLifeSpinner(spinner);
-        spinner.setSelection(count+spinner.get-1);
-        System.out.println("ayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"+(count+SPINNER_BUFFER-1));
+        //spinner.setSelection(spinner.getAdapter().getCount() -1 - SPINNER_BUFFER - count);
+        spinner.setSelection(SPINNER_BUFFER);
+        System.out.println("length:"+ spinner.getAdapter().getCount() + ", Spinner buffer:"+SPINNER_BUFFER+", count:"+count+"= "+(spinner.getAdapter().getCount() -1 - SPINNER_BUFFER - count));
     }
 
     public void fillLifeSpinner(Spinner spinner){
         List<Integer> lifeList = new ArrayList<Integer>();
         for(int i = count + SPINNER_BUFFER; i >= count - SPINNER_BUFFER; i--){
-            if (i >= 0){
                 lifeList.add(i);
-            }else{
-                break;
-            }
+
         }
-        ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, lifeList);
+        ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter<Integer>(this, R.layout.life_spinner_style, lifeList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        spinner.setSelection(count);
+        //spinner.setSelection(count);
         //findViewById(R.id.life_total_spinner).set
     }
 

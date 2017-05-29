@@ -10,20 +10,21 @@
     tools:context="com.topfight3r.firstcounter.MainActivity">
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <!--
     <TextView
-        android:layout_width="387dp"
-        android:layout_height="512dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize = "120sp"
         android:id="@+id/count"
         android:text="0"/>
-
+-->
     <Spinner
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:id="@+id/life_total_spinner"
-        android:gravity="bottom" />
+        android:layout_height="wrap_content"
+        android:id="@+id/life_total_spinner"/>
 </RelativeLayout>
 
 
