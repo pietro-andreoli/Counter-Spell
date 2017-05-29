@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         Spinner lifeTotal = (Spinner) findViewById(R.id.life_total_spinner);
         fillLifeSpinner(lifeTotal);
 
-
+    displayCount(count);
     }
 
     @Override
@@ -143,14 +143,17 @@ public class MainActivity extends AppCompatActivity {
         countText.setText(String.valueOf(count));
         Spinner spinner = (Spinner)findViewById(R.id.life_total_spinner);
         fillLifeSpinner(spinner);
-        spinner.setSelection(count);
+        spinner.setSelection(count+spinner.get-1);
+        System.out.println("ayyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"+(count+SPINNER_BUFFER-1));
     }
 
     public void fillLifeSpinner(Spinner spinner){
         List<Integer> lifeList = new ArrayList<Integer>();
-        for(int i = count - SPINNER_BUFFER; i <= count + SPINNER_BUFFER; i++){
+        for(int i = count + SPINNER_BUFFER; i >= count - SPINNER_BUFFER; i--){
             if (i >= 0){
                 lifeList.add(i);
+            }else{
+                break;
             }
         }
         ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, lifeList);
