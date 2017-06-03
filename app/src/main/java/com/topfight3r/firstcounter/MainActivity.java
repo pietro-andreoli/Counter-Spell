@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,14 +116,22 @@ public class MainActivity extends AppCompatActivity {
         final Spinner lifeTotal = (Spinner) findViewById(R.id.life_total_spinner);
 
         fillLifeSpinner(lifeTotal);
+
         lifeTotal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             boolean tmp = false;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //updateCount(((Integer)lifeTotal.getAdapter().getItem(position)).intValue());
-                count = ((Integer)lifeTotal.getAdapter().getItem(position)).intValue();
-                
+
                 System.out.println("ayylmao");
+                if(tmp) {
+                    count = ((Integer) lifeTotal.getAdapter().getItem(position)).intValue();
+                    System.out.println("count is "+count);
+                    tmp = false;
+                    fillLifeSpinner(lifeTotal);
+
+
+                }else tmp = !tmp;
                 //((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
                 //((TextView) parent.getChildAt(0)).setTextSize(120);
             }
@@ -168,7 +177,8 @@ public class MainActivity extends AppCompatActivity {
         fillLifeSpinner(spinner);
         //spinner.setSelection(spinner.getAdapter().getCount() -1 - SPINNER_BUFFER - count);
         spinner.setSelection(SPINNER_BUFFER);
-        System.out.println("length:"+ spinner.getAdapter().getCount() + ", Spinner buffer:"+SPINNER_BUFFER+", count:"+count+"= "+(spinner.getAdapter().getCount() -1 - SPINNER_BUFFER - count));
+
+
     }
 
     public void fillLifeSpinner(Spinner spinner){
@@ -180,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<Integer> spinnerAdapter = new ArrayAdapter<Integer>(this, R.layout.life_spinner_style, lifeList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
-        //spinner.setSelection(count);
-        //findViewById(R.id.life_total_spinner).set
+        spinner.setSelection(SPINNER_BUFFER);
+
     }
 
     public void increaseCount(View view){
